@@ -158,9 +158,7 @@ const create = function(config) {
                 let user = this.createUser(uuid, state);
 
                 // broadcast that this is a user
-                this.broadcast('$ocf.join', {
-                    user: user
-                });
+                this.broadcast('$ocf.join', user);
 
             });
 
@@ -269,9 +267,7 @@ const create = function(config) {
             if(!this.users[uuid] || broadcast) {
 
                 // broadcast that this is not a new user                    
-                this.broadcast('$ocf.online', {
-                    user: OCF.users[uuid]
-                });
+                this.broadcast('$ocf.online', OCF.users[uuid]);
 
             }
 
@@ -299,10 +295,7 @@ const create = function(config) {
             this.users[uuid].assign(state, this);
 
             // broadcast the user's state update                
-            this.broadcast('$ocf.state', {
-                user: this.users[uuid],
-                state: this.users[uuid].state(this)
-            });
+            this.broadcast('$ocf.state', this.users[uuid]);
 
         }
 

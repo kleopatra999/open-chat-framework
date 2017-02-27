@@ -17,11 +17,11 @@ const setup = function() {
                 endpoint: 'localhost:9000'
             }
         },
-        globalChannel: 'ocf-demo-jquery-kitchensink-17'
+        globalChannel: 'ocf-demo-jquery-kitchensink-20'
     });
 
     OCF.onAny((event, data) => {
-        console.log(event, data);
+        // console.log(event, data);
     });
 
 }
@@ -123,8 +123,6 @@ const renderUser = function($el, user, chat) {
         // create a new chat with that channel
         let newChat = new OCF.Chat(chan);
 
-        console.log(newChat, chan)
-
         // render the new chat on the dom
         renderChat(newChat);
 
@@ -149,6 +147,10 @@ const renderUser = function($el, user, chat) {
 
 };
 
+const removeUser = function($el, user) {
+    $el.find('.' + user.uuid).remove();
+}
+
 // turn OCF.Chat into an online list
 const renderOnlineList = function($el, chat) {
 
@@ -157,25 +159,20 @@ const renderOnlineList = function($el, chat) {
     }
 
     // when someone joins the chat
-    chat.on('$ocf.online', (payload) => {
+    chat.on('$ocf.online', (user) => {
         // render the user in the online list and bind events
-        renderUser($el, payload.user, chat);
+        renderUser($el, user, chat);
     });
 
     // when someone joins the chat
-    chat.on('$ocf.online', (payload) => {
+    chat.on('$ocf.state', (user) => {
+
         // render the user in the online list and bind events
-        renderUser($el, payload.user, chat);
+        renderUser($el, user, chat);
     });
 
-    chat.on('$ocf.disconnect', (payload) => {
-        renderUser($el, payload.user, chat);
-    });
-    
-    // when someone leaves the chat
-    chat.on('$ocf.leave', (payload) => {
-        // remove the user from the online list
-        $('.' + payload.user.uuid).remove();
+    chat.on('$ocf.offline', (user) => {
+        removeUser($el, user);
     });
 
     chat.plugin(OpenChatFramework.plugin.typingIndicator({
@@ -347,6 +344,10 @@ identifyMe();
 // render the OCF.globalChat now that it's defined
 // this onlineList can spawn other chats
 renderOnlineList($('#online-list'), OCF.globalChat);
+
+OCF.globalChat.onAny(function(event, data){
+    console.log(event, data)
+})
 
 // plug the search bar into the username plugin
 bindUsernamePlugin();
