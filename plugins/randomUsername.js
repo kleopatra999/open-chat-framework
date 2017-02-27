@@ -27,7 +27,6 @@
 
                 state.username = randomName();
 
-                console.log('assign random name')
                 this.parent.update(state, chat);
             }
 

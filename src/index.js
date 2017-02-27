@@ -317,11 +317,11 @@ const create = function(config) {
                 this.broadcast('$ocf.leave', this.users[uuid]);
                 this.broadcast('$ocf.offline', this.users[uuid]);
 
-                // remove the user from the local list of users
-                delete this.users[uuid];
-
                 // we don't remove the user from the global list, 
                 // because they may be online in other channels
+
+                // remove the user from the local list of users
+                delete this.users[uuid];
 
             } else {
 
@@ -340,6 +340,8 @@ const create = function(config) {
                 // if a user leaves, broadcast the event
                 this.broadcast('$ocf.disconnect', this.users[uuid]);
                 this.broadcast('$ocf.offline', this.users[uuid]);
+                
+                delete this.users[uuid];
 
             }
 

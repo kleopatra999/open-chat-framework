@@ -4,11 +4,9 @@ angular.module('chatApp', ['open-chat-framework'])
         // OCF Configure
         $rootScope.OCF = OpenChatFramework.create({
             rltm: {
-                service: 'pubnub', 
+                service: 'socketio',
                 config: {
-                    publishKey: 'pub-c-07824b7a-6637-4e6d-91b4-7f0505d3de3f',
-                    subscribeKey: 'sub-c-43b48ad6-d453-11e6-bd29-0619f8945a4f',
-                    restore: false
+                    endpoint: 'localhost:9000'
                 }
             },
             globalChannel: 'ocf-demo-angular-2'
@@ -18,7 +16,7 @@ angular.module('chatApp', ['open-chat-framework'])
         ngOCF.bind($rootScope.OCF);
 
         $rootScope.OCF.onAny((event, data) => {
-            console.log(event, data);
+            // console.log(event, data);
         });
 
         // create a user for myself and store as ```me```
