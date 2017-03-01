@@ -10,6 +10,7 @@ export default Ember.Controller.extend({
       
         this._super();
 
+        // test
         this.OCF = window.OpenChatFramework.create({
           rltm: {
               service: 'pubnub', 
