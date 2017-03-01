@@ -1,20 +1,22 @@
-Hello, {{me.states.ocf-demo-ember.username}}!
+Hello, {{me.states.ocf-demo-ember-2.username}}!
 
 <div class="container">
-    <div class="col-sm-6 offset-sm-3">
-      <div class="card">
-        <div class="card-header">
-          Chat
-        </div>
-        <div class="card-block">
-            <div class="log" id="chat-output"></div>
-            <div class="input-group">
-                <input type="text" class="form-control message" placeholder="Your Message..." id="chat-input" value="{{messageInput}}">     
-                <span class="input-group-btn"><button class="btn btn-primary" type="submit" {{action "sendChat"}}>Send</button></span>
-            </div>
+  <div class="col-sm-6 offset-sm-3">
+    <div class="card">
+      <div class="card-header">
+        Chat
+      </div>
+      <div class="card-block">
+          <ul class="log" id="chat-output">
+            {{#each messages as |message|}}
+              <li>{{message.sender.states.ocf-demo-ember-2.username}}: {{message.data.text}}</li>
+            {{/each}}
+          </ul>
+          <div class="input-group">
+              {{input value=messageInput}}     
+              <span class="input-group-btn"><button class="btn btn-primary" type="submit" {{action "sendChat"}}>Send</button></span>
+          </div>
       </div>
     </div>
+  </div>
 </div>
-</div>
-
-{{people-list title="List of Scientists" people=model}}

@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
                   restore: false
               }
           },
-          globalChannel: 'ocf-demo-ember'
+          globalChannel: 'ocf-demo-ember-2'
         });
 
         // create a user for myself and store as ```me```
@@ -28,11 +28,14 @@ export default Ember.Controller.extend({
         
         this.me.plugin(window.OpenChatFramework.plugin.randomUsername(this.OCF.globalChat));
 
+        this.OCF.globalChat.on('message', (payload) => {
+          console.log(payload)
+          this.messages.pushObject(payload);
+        });
+
     },
     actions: {
         sendChat: function() {
-
-            console.log('this called');
          
             if(this.messageInput) {
                 
@@ -40,9 +43,7 @@ export default Ember.Controller.extend({
                     text: this.messageInput
                 });
 
-                // this.messageInput = '';
-
-                Ember.set('messageInput', '');
+                Ember.set(this, 'messageInput', '');
 
             }
 
